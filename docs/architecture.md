@@ -16,6 +16,7 @@ Built from the portfolio template described in `CLAUDE.md`, adapted for a law pr
 - Each card's pose is a motion value. Idle sway, drag, arrow keys, and the entrance animation update those values directly, so the fan does not re-render React while it moves.
 - React state holds only the active card index, which changes once per card.
 - The `.fan-stage` CSS variables size the cards and the arc from the viewport, so the arc stays on screen on phones and laptops.
+- Hero clearance: on desktop the fan pivots lower (`md:bottom-[-35vh]`), and the side arrows sit at 70% of the hero height. Together with a one-line name (`text-[clamp(2.25rem,7vw,6rem)]`) and a top-aligned intro row, the intro, CTAs, and arrows clear the centre card at 800×600 and 1366×768. Re-check both sizes after any change to the name, intro, or CTAs.
 
 ## Motion
 
