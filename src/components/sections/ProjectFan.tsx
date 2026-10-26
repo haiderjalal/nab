@@ -288,7 +288,7 @@ export function ProjectFan({ items }: ProjectFanProps): ReactElement {
         type="button"
         aria-label="Previous project"
         onClick={() => goTo(targetRef.current - 1)}
-        className="absolute left-4 top-[54%] z-20 -translate-y-1/2 rounded-full md:top-[64%] border border-border bg-surface p-3 text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background md:left-8"
+        className="absolute left-4 top-[54%] z-20 -translate-y-1/2 rounded-full md:top-[70%] border border-border bg-surface p-3 text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background md:left-8"
       >
         <CaretLeft aria-hidden="true" size={20} weight="bold" />
       </button>
@@ -296,7 +296,7 @@ export function ProjectFan({ items }: ProjectFanProps): ReactElement {
         type="button"
         aria-label="Next project"
         onClick={() => goTo(targetRef.current + 1)}
-        className="absolute right-4 top-[54%] z-20 -translate-y-1/2 rounded-full md:top-[64%] border border-border bg-surface p-3 text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background md:right-8"
+        className="absolute right-4 top-[54%] z-20 -translate-y-1/2 rounded-full md:top-[70%] border border-border bg-surface p-3 text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background md:right-8"
       >
         <CaretRight aria-hidden="true" size={20} weight="bold" />
       </button>
