@@ -118,7 +118,7 @@ export function Hero({ profile }: HeroProps): ReactElement {
           </span>
         </h1>
 
-        <div className="mt-8 flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
+        <div className="mt-8 flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:justify-between md:text-left">
           <p
             className="rise max-w-sm text-base leading-relaxed text-muted md:max-w-[17rem] md:text-lg lg:max-w-sm"
             style={riseStyle(0.2)}
