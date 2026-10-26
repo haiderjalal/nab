@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+/*
+ * Theme tokens. Light is the default, and dark follows prefers-color-scheme.
+ * Each mode stays locked for the whole page, so no section flips mid-scroll.
+ * Palette: warm grey paper, black ink, and one red accent.
+ * Radius rule: cards 20px, media inside cards 16px, buttons and tags fully rounded.
+ */
+:root {
+  --background: #e7e7e4;
+  --surface: #ffffff;
+  --foreground: #0b0b0b;
+  --muted: #4f4f4f;
+  --border: rgb(11 11 11 / 0.14);
+  --accent: #d12b1f;
+  --accent-text: #b3241a;
+  --accent-contrast: #ffffff;
+  --glow: rgb(209 43 31 / 0.14);
+  --spotlight: rgb(11 11 11 / 0.06);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b0b0b;
+    --surface: #161616;
+    --foreground: #f2f2ef;
+    --muted: #a3a3a0;
+    --border: rgb(255 255 255 / 0.12);
+    --accent: #ff4b3a;
+    --accent-text: #ff6f60;
+    --accent-contrast: #0b0b0b;
+    --glow: rgb(255 75 58 / 0.16);
+    --spotlight: rgb(255 255 255 / 0.05);
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-contrast: var(--accent-contrast);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-archivo);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+/* Hero card fan. These variables size the cards and keep the arc inside the viewport. */
+.fan-stage {
+  --fan-card-w: clamp(150px, 17vw, 232px);
+  --fan-card-h: calc(var(--fan-card-w) * 1.3);
+  --fan-radius: min(calc(80vh - var(--fan-card-h)), 58vw);
+}
+
+.glass {
+  background: color-mix(in oklab, var(--background) 90%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--background);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.edge-fade {
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.dot-grid {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Fades the dot grid out toward the edges, so it frames the hero headline rather than competing with it. */
+.dot-fade {
+  mask-image: radial-gradient(ellipse 60% 55% at 50% 40%, #000, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 40%, #000, transparent 75%);
+}
+
+/* Hero letters cycle between solid and outline, one after another, so the change reads as a wave. */
+.outline-letter {
+  color: var(--foreground);
+  -webkit-text-stroke-color: var(--foreground);
+  -webkit-text-stroke-width: 0;
+  animation: outline-cycle 7s ease-in-out infinite;
+}
+
+@keyframes outline-cycle {
+  0%,
+  28%,
+  100% {
+    color: var(--foreground);
+    -webkit-text-stroke-width: 0;
+  }
+  40%,
+  60% {
+    color: transparent;
+    -webkit-text-stroke-width: 2px;
+  }
+}
+
+.hero-bar {
+  transform-origin: 50% 0%;
+  animation: bar-grow 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+/* One switch pauses every loop. MotionToggle sets data-motion-paused on <html>, so the CSS loops stop together. */
+html[data-motion-paused="true"] .outline-letter,
+html[data-motion-paused="true"] .marquee-track,
+html[data-motion-paused="true"] .aurora {
+  animation-play-state: paused;
+}
+
+/* Hero content rises in one piece at a time. The delay is set per element with --rise-delay. */
+.rise {
+  animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* A slow drift for the contact glow. It only runs when the visitor has not asked for less motion. */
+.aurora {
+  animation: aurora 14s ease-in-out infinite;
+}
+
+@keyframes aurora {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-48px, 36px, 0) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .outline-letter {
+    animation: none;
+  }
+
+  .hero-bar {
+    animation: none;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+
+  .marquee-duplicate {
+    display: none;
+  }
+
+  .rise {
+    animation: none;
+  }
+
+  .aurora {
+    animation: none;
+  }
+}
